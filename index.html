@@ -14,6 +14,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E1A24'/%3E%3Crect x='7' y='7' width='18' height='18' rx='2' fill='none' stroke='%23EDF0F2' stroke-width='2.5'/%3E%3Cpath d='M11.5 16.5l3 3 6-7' fill='none' stroke='%23F2C230' stroke-width='3' stroke-linecap='square'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
 <style>
 :root{
   color-scheme: light dark;
@@ -418,7 +419,9 @@ const ADAPTATIONS = [
   'Pattern names in running text are tappable and open the definition, with a "More" link to the Learn card.',
   'Everything read from storage or from an imported backup is rebuilt field by field, so a damaged or hand-edited file cannot crash a screen; entries or drafts that cannot be understood are dropped, and stored data that cannot be read at all is kept as a copy in this browser instead of being overwritten.',
   'If the app is open in two tabs (or a tab and the home-screen app), returning to a tab adopts the newest saved data; the last save wins, and drafts stay with the tab that started them.',
-  'There is no web-app manifest or service worker, because the brief asks for one HTML file and one icon. The app is added to the home screen with the meta tags and the 180 px icon, and it needs a connection only for the first load.'
+  'P4 ("The system can’t") carries a named defensible alternative on step 2 as well as step 1: emailing the agent to confirm the real deadline is accepted alongside asking the bank\'s payments team for the rule, because both check a claim at its source.',
+  'The Checkpoint 12-month cost calculator has an optional set-up fee field on the fast option, matching the method card\'s own formula (recurring × months + one-off), as well as the one-off field on the other option.',
+  'The app has a small web-app manifest (name, theme and background colours, standalone display, 180 px and 512 px icons) alongside index.html and icon-180.png, so Android offers "Install" rather than only "Create shortcut". No service worker: the brief\'s single-HTML-file build still needs a connection only for the first load, and offline caching was judged out of scope.'
 ];
 
 /* ================================================================
@@ -603,14 +606,14 @@ const SCENARIOS = [
   worked:"Observation: a same-night deadline, a 24-month term and a £60 fee arrive together, at your door. Meaning: the deadline is the seller’s, and the real cost over 24 months (24 × £22 + £60 = £588) needs comparing, not accepting. Action: ask for the offer in writing, check the provider’s page, and compare with other providers." },
 
 { id:'U3', p:'urgency', l:2, cat:'Relationships and lifestyle money', title:'The last rooms',
-  text:"You and your partner Asha are planning a long weekend in Lisbon in October. A booking page says “Only 2 rooms left at this price” beside a £215-a-night room, with “free cancellation” in small grey type followed by an asterisk. Your shared budget allows £150 a night, and you planned to book about a week before. Asha texts, “These will go, book it!” The price has been the same since you first looked on Tuesday. You have not looked at any other site.",
+  text:"You and your partner Asha are planning a long weekend in Lisbon in October. A booking page says “Only 2 rooms left at this price” beside a £215-a-night room, with “free cancellation” in small grey type followed by an asterisk. You tap the asterisk: it says “until 3 October”. Your shared budget allows £150 a night, and you planned to book about a week before. Asha texts, “These will go, book it!” The price has been the same since you first looked on Tuesday. You have not looked at any other site.",
   signal:"“Only 2 rooms left”: scarcity, with a friendly push behind it, working against a budget you set.",
   move:"State your limit, check the small print and the hotel’s own site, and let the comparison decide.",
   s1:{ o:['instruction','urgency','phantom'], a:1, why:{ instruction:"Asha’s text is a nudge from an equal, not an instruction from someone you defer to. The pull is “these will go”.", phantom:"You are not assuming a limit. You are reacting to a scarcity message." } },
   s2:{ o:["Ask Asha how likely she thinks the rooms are to sell out (direct question).","Book the room and cancel later if needed (no source).","Read the asterisked cancellation terms on the booking page, then look at the hotel’s own site for the same dates (official page).","Read a forum thread about the booking site (forum posts)."], a:2,
     why:["Asha’s guess about availability is the same “these will go” claim.","This acts on the pull first and relies on a small print you have not read.",null,"A forum shows what happened to other people, and not whether these rooms are limited or refundable."] },
   s3:{ o:["Book the £215 room now, with free cancellation, and look at other sites later.","Tell Asha your £150 limit, and check the hotel’s own site and two other sites today before you book anywhere.","Ask Asha to book it on her card, so you can settle the cost between you later."], a:1,
-    why:["This is a hedge, and hedges can be reasonable. But it books £65 above your limit on a scarcity message, and you would have to remember to cancel by 3 October.",null,"This hands the booking to the scarcity pull and turns the budget question into a debt between the two of you."] },
+    why:["This books £65 above the limit you both set, on a scarcity message unchanged since Tuesday, with a cancellation window (until 3 October) you would have to remember and rely on instead of comparing now.",null,"This hands the booking to the scarcity pull and turns the budget question into a debt between the two of you."] },
   h:["What did you decide before the scarcity message appeared?","One check is in the small print; another is the hotel’s own site for the same dates.","Choose the option that returns to your own budget and comparison."],
   worked:"Observation: a scarcity message, a friendly push and small print, against a £150 limit you set. Meaning: the message may be true, but it has not been checked, and the price has been unchanged since Tuesday. Action: read the asterisked terms, check the hotel’s site and two others, and book only within your limit." },
 
@@ -656,7 +659,7 @@ const SCENARIOS = [
   text:"Your joint savings account with your partner, Noor, holds £6,400 and pays almost nothing. You opened it in 2021 with a £50 welcome bonus, and nobody has opened the app since Noor’s birthday. You have both said “we should do something with that” over dinner at least twice, each time while the waiter was topping up the water. The latest statement has a banner saying “Rates may change soon”, with no date. Noor says it would feel wrong to “just abandon” the account.",
   signal:"“We should do something with that”, twice at dinner, with no date: nobody has chosen, so the account has.",
   move:"Book a dated 30 minutes together, check the terms, compare two accounts, and move the money by a set day.",
-  s1:{ o:['urgency','sunk','inertia','phantom'], a:2, why:{ urgency:"The banner says rates “may change soon” but gives no date, and nothing forces a decision. The pull is that nothing forces one.", sunk:"The £50 bonus is a small past benefit. The main pattern is not defending it but never choosing.", phantom:"Nobody has claimed a rule stops you moving the money. The problem is that no one has looked." } },
+  s1:{ o:['urgency','sunk','inertia','phantom'], a:2, why:{ urgency:"The banner says rates “may change soon” but gives no date, and nothing forces a decision. The pull is that nothing forces one.", sunk:"Noor’s “abandon” sounds like loyalty to a past choice, but the £50 bonus is the only past investment named, and nobody is proposing to forfeit it by moving the money. The pull that actually decides here is that no one has set a date.", phantom:"Nobody has claimed a rule stops you moving the money. The problem is that no one has looked." } },
   s2:{ o:["Ask Noor what she remembers about the fees (direct question).","Search for the best savings rates (search results).","Read the account’s terms on the bank’s website for withdrawal and transfer fees (official page).","Wait for the date on the banner (no source)."], a:2,
     why:["Noor’s memory of the terms is not the terms.","Useful for choosing a new account, but it does not check whether this one has exit costs.",null,"The banner has no date, so this waits for nothing in particular."] },
   s3:{ o:["Keep it as it is until the rates change.","Move all £6,400 to the first account that appears in a search.","Book 30 minutes together this Sunday to check the terms, compare two accounts, and move the money by the end of the month."], a:2,
@@ -783,7 +786,7 @@ const LEARN = [
     { h:'Why it works', p:["This is practitioner practice, and this tool uses it as practice, not as a tested result. The idea is that pressure shrinks your view to the next few minutes, and looking further out restores the longer view."] },
     { h:'How to do it in under a minute', ol:["Write one line for how it will feel in 10 minutes.","Write one line for 10 months.","Write one line for 10 years. If the three lines disagree, the disagreement is the thing to look at."] },
     { h:'Example', p:["Buying the sofa tonight: 10 minutes, relief. 10 months, a bigger bill than planned. 10 years, forgotten either way. The long lines suggest waiting."] },
-    { h:'Check your understanding', check:{ q:"Which set of distances is used in time-horizon framing here?", o:["10 minutes, 10 months, 10 years.","1 hour, 1 week, 1 month.","10 seconds, 10 days, 100 years."], a:0, why:"The three distances are 10 minutes, 10 months and 10 years." } }
+    { h:'Check your understanding', check:{ q:"You price a sofa under a countdown. 10 minutes: relief. 10 months: a bigger bill than planned. 10 years: forgotten. What does the method say to look at?", o:["The disagreement between the lines.","The 10-minute line, since that is how you feel now.","Nothing; if the lines disagree the method has failed."], a:0, why:"The card says that if the three lines disagree, the disagreement is the thing to look at — not any single line, and not a sign the method has failed." } }
   ] },
 { id:'m-commit', kind:'method', title:'The commitment sentence', blurb:'One short sentence that names your choice and the default you are overriding.',
   parts:[
@@ -862,7 +865,7 @@ function sanitiseEntry(e){
       constraint:{ text:str(c.text), verified:['yes','no','none'].includes(c.verified) ? c.verified : 'none', source:str(c.source), step:str(c.step) },
       rushed:e.rushed === true && !!e.cost && typeof e.cost === 'object', cost:null, horizon:{ m10:str(hz.m10), mo10:str(hz.mo10), y10:str(hz.y10) },
       premortem:str(e.premortem), commitment:str(e.commitment), checks:checksOf(e.checks, ['chosen','overridden']), followUp:followOf(e.followUp, o.at) });
-    if(r.rushed) r.cost = { monthly:str(e.cost.monthly), months:str(e.cost.months), oneOff:str(e.cost.oneOff) };
+    if(r.rushed) r.cost = { monthly:str(e.cost.monthly), months:str(e.cost.months), setup:str(e.cost.setup), oneOff:str(e.cost.oneOff) };
     if(e.startedAs === 'quick') r.startedAs = 'quick';
     return r;
   }
@@ -1539,14 +1542,14 @@ FLOWS.quick = {
 function checkpointInit(from){
   const q = from || {};
   return { decision:'', analysis:q.analysis||'', pull:'', patterns:(q.patterns||[]).slice(), unsure:!!q.unsure,
-    constraint:{ text:'', verified:'', source:'', step:'' }, rushed:'', cost:{ monthly:'', months:'12', oneOff:'' }, horizon:{ m10:'', mo10:'', y10:'' },
+    constraint:{ text:'', verified:'', source:'', step:'' }, rushed:'', cost:{ monthly:'', months:'12', setup:'', oneOff:'' }, horizon:{ m10:'', mo10:'', y10:'' },
     premortem:'', commitment:q.commitment||'', checks:Object.assign({ chosen:false, overridden:false }, q.checks||{}), followDate:addDays(todayStr(),7), upgradeId:from ? from.id : null };
 }
 function costText(c){
-  const m = parseFloat(c.monthly), n = parseFloat(c.months), o = parseFloat(c.oneOff);
+  const m = parseFloat(c.monthly), n = parseFloat(c.months), s = parseFloat(c.setup), o = parseFloat(c.oneOff);
   if(!isFinite(m) || !isFinite(n)) return 'Enter the monthly cost and the number of months to see the total.';
-  const total = m*n;
-  let t = 'Fast option: '+money(m)+' × '+n+' months = '+money(total)+'.';
+  const recurring = m*n, total = recurring + (isFinite(s) ? s : 0);
+  let t = 'Fast option: '+money(m)+' × '+n+' months'+(isFinite(s) ? ' + '+money(s)+' set-up fee' : '')+' = '+money(total)+'.';
   if(isFinite(o)) t += ' One-off option: '+money(o)+'. The fast option costs '+money(Math.abs(total-o))+(total > o ? ' more' : total < o ? ' less' : ', the same')+' over '+n+' months.';
   return t;
 }
@@ -1600,6 +1603,7 @@ FLOWS.checkpoint = {
         const calc = h('div',{class:'calc stack'}, h('h2',{style:'border:0;padding:0'},'12-month total cost of the fast option ', defBtn('cost12')),
           inputField(c,'monthly',api,{ type:'number', label:'Fast option: recurring cost each month (£)', inputmode:'decimal', step:'any', min:'0', onInput:upd }),
           inputField(c,'months',api,{ type:'number', label:'Months', inputmode:'numeric', step:'1', min:'1', onInput:upd }),
+          inputField(c,'setup',api,{ type:'number', label:'Fast option: one-off set-up fee (£), if there is one', inputmode:'decimal', step:'any', min:'0', onInput:upd }),
           inputField(c,'oneOff',api,{ type:'number', label:'Other option: one-off cost (£), if there is one', inputmode:'decimal', step:'any', min:'0', onInput:upd }), res);
         calc.hidden = d.rushed !== 'yes';
         const group = radios(d,'rushed',api,{ label:'Rushed?', onChange:v => { calc.hidden = v !== 'yes'; }, options:[ { v:'yes', label:'Yes, there is a deadline or a timer' }, { v:'no', label:'No, I can take my time' } ] });
